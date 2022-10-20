@@ -1,3 +1,26 @@
+<?php
+require "model/users.php";
+require "dbBroker.php";
+session_start();
+
+if(isset($_POST["username"]) && isset($_POST['password'])){
+    $uname=$_POST["username"];
+    $upass=$_POST['password'];
+
+    $korisnik=new User(1, $uname, $upass);
+
+    //$conn = new mysqli();
+    $odgovor = User::loginUser($korisnik, $conn); //:: pristup static metodi
+
+    if($odgovor->num_rows == 1){
+        $_SESSION["user_id"] = $korisnik->id;
+        header("Location: home.php");
+    }
+
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
